@@ -1,0 +1,125 @@
+#include <mega128.h>
+#include <delay.h>
+#include <stdio.h>  
+
+void USART1_putc(unsigned char data);
+void USART0_putc(unsigned char data); 
+
+
+/////////////////////////////////////////////////////
+//                                                 //
+//                   통신 0                        //
+//                                                 //
+///////////////////////////////////////////////////// 
+void USART0_init(void)
+{   
+    unsigned int baud;
+
+    //송수신 인에이블 
+    UCSR0B|=0x10;        //RXEN = 1
+    UCSR0B|=0x08;        //TXEN = 1     
+    UCSR0B|=0x80;        //RXCIE 수신 인터럽트 인에이블 
+    
+    //통신속도 설정                
+    baud=8;   //보드레이트19200
+    UBRR0H=(unsigned char)(baud>>8);
+    UBRR0L=(unsigned char)baud;     
+    /*
+    UCSR0B|=0x18;        
+        UBRR0H=0;    
+         UBRR0L=35;  
+     */
+}   
+
+void USART0_putc(unsigned char data)
+{
+    while(!(UCSR0A&0x20));       
+    UDR0=data;
+}  
+
+unsigned char USART0_getc(void)
+{
+    while(!(UCSR0A&0x80));       
+    return UDR0;
+} 
+
+/////////////////////////////////////////////////////
+//                                                 //
+//                   통신 1                        //
+//                                                 //
+///////////////////////////////////////////////////// 
+void USART1_init(void)
+{   
+    unsigned int baud;
+
+    //송수신 인에이블 
+    UCSR1B|=0x10;        //RXEN = 1
+    UCSR1B|=0x08;        //TXEN = 1     
+    UCSR1B|=0x80;        //RXCIE 수신 인터럽트 인에이블 
+    
+    //통신속도 설정                
+    baud=103;
+    UBRR1H=(unsigned char)(baud>>8);
+    UBRR1L=(unsigned char)baud;
+}   
+
+void USART1_putc(unsigned char data)
+{
+    while(!(UCSR1A&0x20));       
+    UDR1=data;
+}  
+
+unsigned char USART1_getc(void)
+{
+    while(!(UCSR1A&0x80));       
+    return UDR1;
+}  
+
+/////////////////////////////////////////////////////
+//                                                 //
+//                      수  신                     //
+//                                                 //
+/////////////////////////////////////////////////////
+interrupt [USART0_RXC] void uart0_rxc(void)
+{
+ 
+}
+
+interrupt [USART1_RXC] void uart1_rxc(void)
+{                                           
+             
+}  
+/////////////////////////////////////////////////////
+//                                                 //
+//                하드웨어 초기화                  //
+//                                                 //
+/////////////////////////////////////////////////////   
+
+void dev_init(void)
+{                          
+    
+    DDRD=0xfb;
+    DDRE=0xfe;
+    
+    USART0_init();
+    USART1_init();
+    #asm("sei");
+}
+
+
+
+/////////////////////////////////////////////////////
+//                                                 //
+//                   MAIN문                        //
+//                                                 //
+///////////////////////////////////////////////////// 
+void main(void)
+{        
+    dev_init(); 
+    USART0_init();
+    
+    while(1)
+    { 
+        USART0_putc('a');       
+    }//while
+} //main  

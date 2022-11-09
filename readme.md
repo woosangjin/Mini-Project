@@ -1,3 +1,3 @@
 # Mini-Project
 
-![image](https://user-images.githubusercontent.com/23616987/200713596-cccc6159-cab0-438f-9491-8a6e716dcb36.png)
+![image](https://user-images.githubusercontent.com/23616987/200723366-d56c9b91-42c8-4d7b-a235-9ddb6e14e5e7.png)

@@ -1,6 +1,7 @@
 # 보드 GO
 
   - 몸의 기울기를 센싱하여 기동하는 전동스케이트보드
+  - [보드GO팀 유튜브영상](https://www.youtube.com/watch?v=NZgVnm5m07w)
   
 ## 개발환경
   - 개발 tool : avr studio (스케이트보드), arduino ide(자이로센서)
